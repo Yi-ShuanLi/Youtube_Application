@@ -1,0 +1,61 @@
+﻿<Page x:Class="Youtube_Application.Pages.PlayListPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Youtube_Application"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" >
+            <Label>YouTube ：</Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" >
+            <Label>新增撥放清單名稱：</Label>
+            <TextBox Width="150"  Text="{Binding CreatePlayListModel.PlayListName}"></TextBox>
+            <Label>敘述：</Label>
+            <TextBox Width="150"  Text="{Binding CreatePlayListModel.Description}"></TextBox>
+            <Label>權限：</Label>
+            <CheckBox Content="公開"  IsChecked="{Binding CreatePlayListModel.IsPublic}" VerticalAlignment="Center"/>
+            <Button Content="建立" Command="{Binding CreatePlayListCommand}" 
+                    CommandParameter="{Binding}" Margin="15,0,0,0" />
+
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+            <Button Content="取得所有撥放清單" Command="{Binding GetAllPlayListCoverCommand}" 
+            CommandParameter="{Binding}" Margin="15,0,0,0" />
+        </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding Results}" >
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Name}"></Label>
+                        <Label Content="{Binding Id}"></Label>
+                        <Label Content="{Binding Description}"></Label>
+                        <Label Content="{Binding Authority}"></Label>
+                        <Label Content="{Binding ContentCount}"></Label>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+        <ItemsControl ItemsSource="{Binding Results2}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Title}"></Label>
+                        <Label Content="{Binding VideoId}"></Label>
+                        <Label Content="{Binding Description}"></Label>
+                        <Label Content="{Binding ChannelTitle}"></Label>
+                        <Label Content="{Binding ChannelId}"></Label>
+                        <Label Content="{Binding PublishTime}"></Label>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+    </StackPanel>
+</Page>

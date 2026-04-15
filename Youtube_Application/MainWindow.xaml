@@ -1,0 +1,224 @@
+﻿<Window x:Class="Youtube_Application.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Youtube_Application"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label>YouTube ：</Label>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Label>影片搜尋：</Label>
+                <TextBox Width="150"  Text="{Binding SearchVideoModelReq.q}"></TextBox>
+                <Button Content="搜尋" Command="{Binding SearchVideoCommand}" Margin="15,0,0,0" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Margin="10,0,20,0" >
+                    <TextBlock Text="類型"   Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding FilterOptions.Category}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate >
+                                <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected}"  GroupName="Category"  Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Margin="10,0,20,0" >
+                    <TextBlock Text="片長"   Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding FilterOptions.FilmLength}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected}"  GroupName="FilmLength"  Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="4" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Margin="10,0,20,0" >
+                    <TextBlock Text="上傳日期"  Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding FilterOptions.UploadDate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected}" GroupName="UploadDate"  Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="5" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Margin="10,0,20,0" >
+                    <TextBlock Text="屬性"  Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding FilterOptions.Property}" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected}" GroupName="Property"  Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="6" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <StackPanel Margin="10,0,20,0" >
+                    <TextBlock Text="優先順序"  Margin="0,0,0,15"/>
+                    <ItemsControl ItemsSource="{Binding FilterOptions.Priority}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <RadioButton Content="{Binding Name}" IsChecked="{Binding IsSelected}" GroupName="Priority"  Margin="0,0,0,10"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="7" Margin="0,0,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <!-- 分頁按鈕區域 -->
+            <Button Grid.Column="0" Content="前一頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="-1" IsEnabled="{Binding PreviousPageButtonIsEnable}">
+
+            </Button>
+            <Button Grid.Column="1" Content="前五頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="-5" IsEnabled="{Binding PreviousPageButtonIsEnable}">
+
+            </Button>
+            <ItemsControl Grid.Column="2" ItemsSource="{Binding PageSource}" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <!-- 這裡會自動產生每個按鈕 -->
+                        <Button Content="{Binding Name}" 
+                            Width="30" 
+                            Margin="2" 
+                            Command="{Binding DataContext.PageChangeCommand, RelativeSource={RelativeSource FindAncestor,
+                                          AncestorType={x:Type Window}}}"
+                            CommandParameter="{Binding Name}"
+                            >
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Setter Property="Foreground" Value="Black" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Background" Value="SkyBlue" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Grid.Column="3" Content="後五頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="5" IsEnabled="{Binding NextPageButtonIsEnable}">
+
+            </Button>
+            <Button Grid.Column="4" Content="下一頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="1" IsEnabled="{Binding NextPageButtonIsEnable}">
+
+            </Button>
+        </Grid>
+
+
+        <ScrollViewer Grid.Row="8" VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+            <ItemsControl ItemsSource="{Binding Results}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="220" Height="250" Margin="10" BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Background="White">
+                            <StackPanel>
+                                <Image Source="{Binding ImageUrl}" Height="120" Stretch="UniformToFill" />
+                                <StackPanel Margin="10">
+                                    <TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontWeight="Bold" Height="40" TextTrimming="CharacterEllipsis" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <Ellipse Width="24" Height="24" Margin="0,0,8,0">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding ChannelImageUrl}" Stretch="UniformToFill" />
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock Text="{Binding ChannelTitle}" Foreground="DimGray" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding PublishTime, StringFormat=\{0:yyyy/MM/dd\}}" Foreground="Gray" FontSize="11" Margin="0,5,0,0"/>
+                                    <TextBlock Text="{Binding ViewCount, StringFormat='觀看人數 \{0:#,##0\}次'}" Foreground="DimGray" FontSize="11" Margin="0,3,0,0" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </ScrollViewer>
+    </Grid>
+</Window>
