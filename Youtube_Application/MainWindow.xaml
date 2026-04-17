@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Youtube_Application"
+        xmlns:local="clr-namespace:Youtube_Application" xmlns:page="clr-namespace:Youtube_Application.Components.PaginationComponent"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
@@ -129,63 +129,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="7" Margin="0,0,0,0" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <!-- 分頁按鈕區域 -->
-            <Button Grid.Column="0" Content="前一頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="-1" IsEnabled="{Binding PreviousPageButtonIsEnable}">
-
-            </Button>
-            <Button Grid.Column="1" Content="前五頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="-5" IsEnabled="{Binding PreviousPageButtonIsEnable}">
-
-            </Button>
-            <ItemsControl Grid.Column="2" ItemsSource="{Binding PageSource}" >
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <!-- 這裡會自動產生每個按鈕 -->
-                        <Button Content="{Binding Name}" 
-                            Width="30" 
-                            Margin="2" 
-                            Command="{Binding DataContext.PageChangeCommand, RelativeSource={RelativeSource FindAncestor,
-                                          AncestorType={x:Type Window}}}"
-                            CommandParameter="{Binding Name}"
-                            >
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Background" Value="LightGray" />
-                                    <Setter Property="Foreground" Value="Black" />
-
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="Background" Value="SkyBlue" />
-                                            <Setter Property="Foreground" Value="White" />
-                                            <Setter Property="FontWeight" Value="Bold" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Button Grid.Column="3" Content="後五頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="5" IsEnabled="{Binding NextPageButtonIsEnable}">
-
-            </Button>
-            <Button Grid.Column="4" Content="下一頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="1" IsEnabled="{Binding NextPageButtonIsEnable}">
-
-            </Button>
-        </Grid>
-
+        <page:Pagination Grid.Row="7"></page:Pagination>
 
         <ScrollViewer Grid.Row="8" VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
             <ItemsControl ItemsSource="{Binding Results}">

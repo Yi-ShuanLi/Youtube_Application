@@ -67,6 +67,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\Contracts\PaginationContract.cs" />
+    <Compile Include="Components\PaginationComponent\Pagination.xaml.cs">
+      <DependentUpon>Pagination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\PaginationContext.cs" />
+    <Compile Include="Components\PaginationPresenter.cs" />
     <Compile Include="Contract\SearchVideoContract.cs" />
     <Compile Include="Models\ViewModels\OptionModel.cs" />
     <Compile Include="Models\ViewModels\PlayListItemViewModel.cs" />
@@ -82,6 +88,10 @@
     <Compile Include="Utilitys\Mapper.cs" />
     <Compile Include="Models\DTO\CreateListModel.cs" />
     <Compile Include="Models\DTO\SearchModel.cs" />
+    <Page Include="Components\PaginationComponent\Pagination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

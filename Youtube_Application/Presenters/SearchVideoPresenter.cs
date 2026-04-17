@@ -15,7 +15,7 @@ namespace Youtube_Application.Presenters
     public class SearchVideoPresenter : ISearchVideoPresenter
     {
         public ISearchVideoModelView SearchVideoModelView;
-        public Youtube_API.YoutubeContext youtube = new Youtube_API.YoutubeContext(true);
+        public Youtube_API.YoutubeContext youtube = new Youtube_API.YoutubeContext(false);
         public SearchVideoPresenter(ISearchVideoModelView view)
         {
             this.SearchVideoModelView = view;
