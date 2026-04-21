@@ -73,10 +73,13 @@
     </Compile>
     <Compile Include="Components\PaginationContext.cs" />
     <Compile Include="Components\PaginationPresenter.cs" />
+    <Compile Include="Components\SearchFilterComponent\SearchFilter.xaml.cs">
+      <DependentUpon>SearchFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Contract\SearchVideoContract.cs" />
     <Compile Include="Models\ViewModels\OptionModel.cs" />
     <Compile Include="Models\ViewModels\PlayListItemViewModel.cs" />
-    <Compile Include="Models\ViewModels\SearchFilterModel.cs" />
+    <Compile Include="Components\SearchFilterComponent\SearchFilterModel.cs" />
     <Compile Include="Models\ViewModels\SelectedSearchFilterOptionsModel.cs" />
     <Compile Include="Models\ViewModels\VideoItemViewModel.cs" />
     <Compile Include="Pages\PlayListPage.xaml.cs">
@@ -89,6 +92,10 @@
     <Compile Include="Models\DTO\CreateListModel.cs" />
     <Compile Include="Models\DTO\SearchModel.cs" />
     <Page Include="Components\PaginationComponent\Pagination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\SearchFilterComponent\SearchFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

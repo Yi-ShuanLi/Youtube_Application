@@ -18,27 +18,40 @@ namespace Youtube_Application.Components
     {
         public IPaginationPresenter PaginationPresenter;
         public int CurrentPageNumber { get; set; } = 1;
-        public bool PreviousPageButtonIsEnable { get; set; } = true;
-        public bool NextPageButtonIsEnable { get; set; } = true;
+        public bool PreviousPageButtonIsEnable { get; set; } = false;
+        public bool NextPageButtonIsEnable { get; set; } = false;
         public ObservableCollection<OptionModel> PageSource { get; set; } = new ObservableCollection<OptionModel>();
         public ICommand PreviousNextPageCommand { get; set; }
         public ICommand PageChangeCommand { get; set; }
-        private int totalCount = 375;
+        public ICommand NotifyPageChangeCommand { get; set; }
+        private int _TotalCount;
+        public int TotalCount
+        {
+            get => _TotalCount;
+            set
+            {
+                _TotalCount = value;
+                this.pageCount = TotalCount % 10 == 0 ? TotalCount / 10 : (TotalCount / 10) + 1;
+                this.PaginationPresenter.InitialTotalCount(value);
+            }
+        }
         private int pageCount = 0;
 
         public PaginationContext()
         {
             PaginationPresenter = new PaginationPresenter(this);
-            this.PaginationPresenter.InitialTotalCount(totalCount);
-            this.pageCount = totalCount % 10 == 0 ? totalCount / 10 : (totalCount / 10) + 1;
+            //this.PaginationPresenter.InitialTotalCount(TotalCount);
             PageChangeCommand = new RelayCommand((x) =>
             {
-                this.PaginationPresenter.JumpPageRequest((int)x);
+                this.PaginationPresenter.JumpPageRequest(int.Parse(x.ToString()));
+                PreviousNextPageIsEnableState();
+                NotifyPageChangeCommand.Execute(CurrentPageNumber);
             });
-
             PreviousNextPageCommand = new RelayCommand((x) =>
             {
                 this.PaginationPresenter.ChangePageRequest(x.ToString());
+                PreviousNextPageIsEnableState();
+                NotifyPageChangeCommand.Execute(CurrentPageNumber);
             });
         }
 

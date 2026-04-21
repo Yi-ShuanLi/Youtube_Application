@@ -26,9 +26,9 @@ namespace Youtube_Application.Components
             int start = ((CurrentPageNumber - 1) / 10) * 10 + 1;
             int countBefore = (start + 9) > MaxPageNumber ? (MaxPageNumber - start) : 9;
             int end = start + countBefore;
-            if ((CurrentPageNumber + pageChange) < 0)
+            if ((CurrentPageNumber + pageChange) <= 0)
                 CurrentPageNumber = 1;
-            else if ((CurrentPageNumber + pageChange) > MaxPageNumber)
+            else if ((CurrentPageNumber + pageChange) >= MaxPageNumber)
                 CurrentPageNumber = MaxPageNumber;
             else
                 CurrentPageNumber += pageChange;
@@ -70,11 +70,14 @@ namespace Youtube_Application.Components
 
         public void InitialTotalCount(int totalCount)
         {
+            CurrentPageNumber = 1;
             this.TotalDataCount = totalCount;
             this.MaxPageNumber = totalCount % 10 == 0 ? totalCount / 10 : (totalCount / 10) + 1;
             List<int> pages = new List<int>();
             int firstPageNum = (CurrentPageNumber);
-            int count = (CurrentPageNumber + 9) > this.MaxPageNumber ? (this.MaxPageNumber - CurrentPageNumber + 1) : 10;
+            int count = this.MaxPageNumber - firstPageNum + 1;
+            if (this.MaxPageNumber > 10)
+                count = 10;
             int lastPageNum = firstPageNum + count;
             for (int i = 0; i < count; i++)
             {

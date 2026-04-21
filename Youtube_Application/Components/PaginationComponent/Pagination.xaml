@@ -6,61 +6,147 @@
              xmlns:local="clr-namespace:Youtube_Application.Components.PaginationComponent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Grid.Row="7" Margin="0,0,0,0" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <!-- 分頁按鈕區域 -->
-        <Button Grid.Column="0" Content="前一頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="-1" IsEnabled="{Binding PreviousPageButtonIsEnable}">
 
-        </Button>
-        <Button Grid.Column="1" Content="前五頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="-5" IsEnabled="{Binding PreviousPageButtonIsEnable}">
+    <UserControl.Resources>
+        <!-- 導航按鈕樣式 -->
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#3B82F6"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#EFF6FF"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#DBEAFE"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#E5E7EB"/>
+                                <Setter TargetName="border" Property="Background" Value="#F9FAFB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        </Button>
-        <ItemsControl Grid.Column="2" ItemsSource="{Binding PageSource}" >
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <!-- 這裡會自動產生每個按鈕 -->
-                    <Button Content="{Binding Name}" 
-                    Width="30" 
-                    Margin="2" 
-                    Command="{Binding DataContext.PageChangeCommand, RelativeSource={RelativeSource FindAncestor,
-                                  AncestorType={x:Type UserControl}}}"
-                    CommandParameter="{Binding Name}"
-                    >
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Background" Value="LightGray" />
-                                <Setter Property="Foreground" Value="Black" />
+        <!-- 數字頁碼按鈕樣式 -->
+        <Style x:Key="PageNumberButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Margin" Value="3,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#3B82F6"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#EFF6FF"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#DBEAFE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
 
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="SkyBlue" />
-                                        <Setter Property="Foreground" Value="White" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Button Grid.Column="3" Content="後五頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="5" IsEnabled="{Binding NextPageButtonIsEnable}">
+    <Grid Margin="0,8">
+        <!-- 整體用單一欄，讓內容水平置中 -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-        </Button>
-        <Button Grid.Column="4" Content="下一頁" Width="50" Margin="2" Command="{Binding PreviousNextPageCommand}" CommandParameter="1" IsEnabled="{Binding NextPageButtonIsEnable}">
+            <!-- 前一頁 -->
+            <Button Content="◀  前一頁"
+                    Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding PreviousNextPageCommand}"
+                    CommandParameter="-1"
+                    IsEnabled="{Binding PreviousPageButtonIsEnable}"/>
 
-        </Button>
+            <!-- 前五頁 -->
+            <Button Content="«  前五頁"
+                    Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding PreviousNextPageCommand}"
+                    CommandParameter="-5"
+                    IsEnabled="{Binding PreviousPageButtonIsEnable}"/>
+
+            <!-- 數字頁碼 -->
+            <ItemsControl ItemsSource="{Binding PageSource}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}"
+                                Command="{Binding DataContext.PageChangeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                CommandParameter="{Binding Name}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource PageNumberButtonStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Background" Value="#3B82F6"/>
+                                            <Setter Property="BorderBrush" Value="#3B82F6"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- 後五頁 -->
+            <Button Content="後五頁  »"
+                    Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding PreviousNextPageCommand}"
+                    CommandParameter="5"
+                    IsEnabled="{Binding NextPageButtonIsEnable}"/>
+
+            <!-- 下一頁 -->
+            <Button Content="下一頁  ▶"
+                    Style="{StaticResource NavButtonStyle}"
+                    Command="{Binding PreviousNextPageCommand}"
+                    CommandParameter="1"
+                    IsEnabled="{Binding NextPageButtonIsEnable}"/>
+
+        </StackPanel>
     </Grid>
-
 </UserControl>

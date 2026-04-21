@@ -1,0 +1,327 @@
+﻿<UserControl
+    x:Class="Youtube_Application.Components.SearchFilterComponent.SearchFilter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Youtube_Application.Components.SearchFilterComponent"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <!--  膠囊 RadioButton 樣式  -->
+        <Style x:Key="PillRadioButton" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border
+                            x:Name="Border"
+                            Padding="12,5"
+                            Background="#F5F5F5"
+                            BorderBrush="#DDDDD8"
+                            BorderThickness="0.5"
+                            CornerRadius="99">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#E6F1FB" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#378ADD" />
+                                <Setter Property="Foreground" Value="#185FA5" />
+                                <Setter Property="FontWeight" Value="Medium" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#AAAAAA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="#555555" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="0,0,8,8" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <!--  區塊標題樣式  -->
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Foreground" Value="#888780" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+        </Style>
+
+        <!--  分隔線樣式  -->
+        <Style x:Key="Divider" TargetType="Separator">
+            <Setter Property="Background" Value="#E8E8E4" />
+            <Setter Property="Height" Value="0.5" />
+            <Setter Property="Margin" Value="0,2,0,8" />
+        </Style>
+    </UserControl.Resources>
+
+    <!--  外框卡片  -->
+    <Border
+        Padding="20,20,20,20"
+        Background="White"
+        BorderBrush="#DDDDD8"
+        BorderThickness="0.5"
+        CornerRadius="12">
+        <StackPanel>
+
+            <!--  搜尋列  -->
+            <StackPanel Margin="0,0,0,16" Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,8,0"
+                    VerticalAlignment="Center"
+                    FontSize="13"
+                    Foreground="#888780"
+                    Text="影片搜尋" />
+                <Border
+                    Width="180"
+                    Height="32"
+                    Background="#F5F5F5"
+                    BorderBrush="#DDDDD8"
+                    BorderThickness="0.5"
+                    CornerRadius="8">
+                    <TextBox
+                        Padding="10,0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        FontSize="13"
+                        Text="{Binding SearchQ}" />
+                </Border>
+                <Border
+                    Height="32"
+                    Margin="8,0,0,0"
+                    Background="#F5F5F5"
+                    BorderBrush="#DDDDD8"
+                    BorderThickness="0.5"
+                    CornerRadius="8">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Padding="14,0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding ApplyFilterCommand}"
+                            Content="搜尋"
+                            Cursor="Hand"
+                            FontSize="13" />
+                        <Button
+                            Padding="14,0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding OpenPopupCommand}"
+                            Content="進階搜尋"
+                            Cursor="Hand"
+                            FontSize="13" />
+                    </StackPanel>
+
+
+                </Border>
+            </StackPanel>
+
+            <Separator Style="{StaticResource Divider}" />
+
+            <Popup
+                AllowsTransparency="True"
+                IsOpen="{Binding IsOpen}"
+                Placement="Center"
+                PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                PopupAnimation="Fade"
+                StaysOpen="False">
+
+                <!--  半透明遮罩底層  -->
+                <Border
+                    Margin="20"
+                    Background="White"
+                    BorderBrush="#DDDDD8"
+                    BorderThickness="1.5"
+                    CornerRadius="16"
+                    Effect="{x:Null}">
+                    <StackPanel>
+
+                        <!--  Header  -->
+                        <Border
+                            Padding="22,16"
+                            BorderBrush="#E8E8E4"
+                            BorderThickness="0,0,0,0.5"
+                            CornerRadius="16,16,0,0">
+                            <Grid>
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="Medium"
+                                    Foreground="#1A1A1A"
+                                    Text="進階搜尋" />
+                                <Button
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{Binding ClosePopupCommand}"
+                                    Cursor="Hand"
+                                    FontSize="13"
+                                    Foreground="#888780">
+                                    <Border
+                                        Width="28"
+                                        Height="28"
+                                        Background="#F5F5F5"
+                                        BorderBrush="#DDDDD8"
+                                        BorderThickness="0.5"
+                                        CornerRadius="99">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            Foreground="#666"
+                                            Text="✕" />
+                                    </Border>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <!--  Body  -->
+                        <StackPanel Margin="22,16,22,0">
+
+                            <!--  類型  -->
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="11"
+                                FontWeight="Medium"
+                                Foreground="#AAAAAA"
+                                Text="類型" />
+                            <ItemsControl Margin="0,0,0,14" ItemsSource="{Binding Category}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <RadioButton
+                                            Command="{Binding DataContext.VisibilityCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Content="{Binding Name}"
+                                            GroupName="Category"
+                                            IsChecked="{Binding IsSelected}"
+                                            Style="{StaticResource PillRadioButton}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Separator Style="{StaticResource Divider}" />
+
+                            <!--  片長  -->
+                            <StackPanel Visibility="{Binding IsVideo}">
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    FontSize="11"
+                                    FontWeight="Medium"
+                                    Foreground="#AAAAAA"
+                                    Text="片長" />
+                                <ItemsControl Margin="0,0,0,14" ItemsSource="{Binding FilmLength}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <RadioButton
+                                                Content="{Binding Name}"
+                                                GroupName="FilmLength"
+                                                IsChecked="{Binding IsSelected}"
+                                                Style="{StaticResource PillRadioButton}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Separator Style="{StaticResource Divider}" />
+                            </StackPanel>
+
+                            <!--  上傳日期  -->
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="11"
+                                FontWeight="Medium"
+                                Foreground="#AAAAAA"
+                                Text="上傳日期" />
+                            <ItemsControl Margin="0,0,0,14" ItemsSource="{Binding UploadDate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <RadioButton
+                                            Content="{Binding Name}"
+                                            GroupName="UploadDate"
+                                            IsChecked="{Binding IsSelected}"
+                                            Style="{StaticResource PillRadioButton}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Separator Style="{StaticResource Divider}" Visibility="{Binding IsVideo}" />
+
+                            <!--  屬性  -->
+                            <StackPanel Visibility="{Binding IsVideo}">
+                                <TextBlock
+                                    Margin="0,0,0,8"
+                                    FontSize="11"
+                                    FontWeight="Medium"
+                                    Foreground="#AAAAAA"
+                                    Text="屬性" />
+                                <ItemsControl Margin="0,0,0,14" ItemsSource="{Binding Property}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <RadioButton
+                                                Content="{Binding Name}"
+                                                GroupName="Property"
+                                                IsChecked="{Binding IsSelected}"
+                                                Style="{StaticResource PillRadioButton}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Separator Style="{StaticResource Divider}" />
+                            </StackPanel>
+
+                            <!--  優先順序  -->
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="11"
+                                FontWeight="Medium"
+                                Foreground="#AAAAAA"
+                                Text="優先順序" />
+                            <ItemsControl Margin="0,0,0,4" ItemsSource="{Binding Priority}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <RadioButton
+                                            Content="{Binding Name}"
+                                            GroupName="Priority"
+                                            IsChecked="{Binding IsSelected}"
+                                            Style="{StaticResource PillRadioButton}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </StackPanel>
+
+    </Border>
+</UserControl>

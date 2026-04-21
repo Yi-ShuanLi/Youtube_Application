@@ -8,8 +8,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
@@ -34,29 +36,90 @@ namespace Youtube_Application.Models
         public ObservableCollection<VideoItemViewModel> Results { get; set; } = new ObservableCollection<VideoItemViewModel>();
         public ObservableCollection<VideoItemViewModel> TotalResults { get; set; } = new ObservableCollection<VideoItemViewModel>();
 
+        public int TotalResultsCount
+        {
+            get => TotalResults.Count;
+        }
         public SearchFilterModel FilterOptions { get; set; } = new SearchFilterModel();
         //TODO: 之後拆分成元件之後會需要這包物件
         //public SelectedSearchFilterOptionsModel SelectedSearchFilterOptionsModel { get; set; } = new SelectedSearchFilterOptionsModel();
         public SearchVideoModelReq SearchVideoModelReq { get; set; } = new SearchVideoModelReq();
 
         public SearchModel SearchVideoModel { get; set; } = new SearchModel();
-        public ICommand SearchVideoCommand { get; set; }
 
+        public ICommand PageChangeCommand { get; set; }
+
+        public ICommand FilterButtonCommand { get; set; }
 
         public void GetSearchVideos(List<VideoItemViewModel> videoItemViewModels) // TODO: 這裡要改成回傳DTO 再用Mapper去轉
         {
             Results.Clear();
             TotalResults.Clear();
             TotalResults = new ObservableCollection<VideoItemViewModel>(videoItemViewModels);
-
+            Results = new ObservableCollection<VideoItemViewModel>(TotalResults.Take(10));
         }
 
         public MainViewModel()
         {
             this.SearchVideoPresenter = new SearchVideoPresenter(this);
-            SearchVideoCommand = new RelayCommand(async (x) =>
+
+            PageChangeCommand = new RelayCommand<int>((x) =>
             {
-                SetSearchVideoModelReq();
+                Results.Clear();
+                Results = new ObservableCollection<VideoItemViewModel>(TotalResults.Skip(x * 10 - 10).Take(10));
+            });
+            FilterButtonCommand = new RelayCommand<SelectedSearchFilterOptionsModel>(async (x) =>
+            {
+                PropertyInfo[] propertyInfos =
+                x.GetType()
+                .GetProperties()
+                .Where(z =>
+                {
+                    if (z.Name == "SearchQ")
+                        return false;
+                    if (x.Category.Name != "影片")
+                    {
+                        if (z.Name == "FilmLength" || z.Name == "Property")
+                            return false;
+                        return true;
+                    }
+                    return true;
+                }).ToArray();
+
+                for (int i = 0; i < propertyInfos.Length; i++)
+                {
+                    OptionModel optionModel = (OptionModel)propertyInfos[i].GetValue(x);
+                    if (propertyInfos[i].Name != "UploadDate")
+                    {
+                        Type t = typeof(SearchVideoModelReq);
+                        PropertyInfo f = t.GetProperty(optionModel.PropName);
+                        f.SetValue(this.SearchVideoModelReq, optionModel.PropValue);
+                        continue;
+                    }
+                    String publishedAfterString = "";
+                    String publishedBeforeString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + DateTime.Now.ToString("HH:mm:ss") + "%2B08:00";
+                    if (optionModel.Name == "今天")
+                    {
+                        publishedAfterString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+                    }
+                    else if (optionModel.Name == "本週")
+                    {
+                        publishedAfterString = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+                    }
+                    else if (optionModel.Name == "本月")
+                    {
+                        publishedAfterString = DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+                    }
+                    else if (optionModel.Name == "今年")
+                    {
+                        publishedAfterString = DateTime.Now.AddDays(-365).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+                    }
+                    SearchVideoModelReq.publishedBefore = publishedBeforeString;
+                    SearchVideoModelReq.publishedAfter = publishedAfterString;
+
+                }
+
+                SearchVideoModelReq.q = x.SearchQ;
                 await this.SearchVideoPresenter.SearchVideo(SearchVideoModelReq);
             });
         }
@@ -64,49 +127,49 @@ namespace Youtube_Application.Models
 
         private void SetSearchVideoModelReq()
         {
-            PropertyInfo[] propertyInfos = FilterOptions.GetType().GetProperties();
-            List<OptionModel> selectedList = propertyInfos.Select(x =>
-            {
-                List<OptionModel> options = (List<OptionModel>)x.GetValue(FilterOptions);
-                return options.First(y => y.IsSelected);
-            }).ToList();
-            //selectedList.Add(FilterOptions.Category.First(x => x.IsSelected == true));
-            //selectedList.Add(FilterOptions.FilmLength.First(x => x.IsSelected == true));
-            //selectedList.Add(FilterOptions.UploadDate.First(x => x.IsSelected == true));
-            //selectedList.Add(FilterOptions.Property.First(x => x.IsSelected == true));
-            //selectedList.Add(FilterOptions.Priority.First(x => x.IsSelected == true));
-            //Dictionary<string, string> keyValuePairs = selected.ToDictionary(x => x.Name, y => y.IsSelected.ToString());
-            for (int i = 0; i < selectedList.Count; i++)
-            {
-                OptionModel selected = selectedList[i];
-                Type t = typeof(SearchVideoModelReq);
-                if (selected.PropName != null)
-                {
-                    PropertyInfo f = t.GetProperty(selected.PropName);
-                    f.SetValue(SearchVideoModelReq, selected.PropValue);
-                    continue;
-                }
-                String publishedAfterString = "";
-                String publishedBeforeString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + DateTime.Now.ToString("HH:mm:ss") + "%2B08:00";
-                if (selected.Name == "今天")
-                {
-                    publishedAfterString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-                }
-                else if (selected.Name == "本週")
-                {
-                    publishedAfterString = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-                }
-                else if (selected.Name == "本月")
-                {
-                    publishedAfterString = DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-                }
-                else if (selected.Name == "今年")
-                {
-                    publishedAfterString = DateTime.Now.AddDays(-365).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-                }
-                SearchVideoModelReq.publishedBefore = publishedBeforeString;
-                SearchVideoModelReq.publishedAfter = publishedAfterString;
-            }
+            //PropertyInfo[] propertyInfos = FilterOptions.GetType().GetProperties();
+            //List<OptionModel> selectedList = propertyInfos.Select(x =>
+            //{
+            //    List<OptionModel> options = (List<OptionModel>)x.GetValue(FilterOptions);
+            //    return options.First(y => y.IsSelected);
+            //}).ToList();
+            ////selectedList.Add(FilterOptions.Category.First(x => x.IsSelected == true));
+            ////selectedList.Add(FilterOptions.FilmLength.First(x => x.IsSelected == true));
+            ////selectedList.Add(FilterOptions.UploadDate.First(x => x.IsSelected == true));
+            ////selectedList.Add(FilterOptions.Property.First(x => x.IsSelected == true));
+            ////selectedList.Add(FilterOptions.Priority.First(x => x.IsSelected == true));
+            ////Dictionary<string, string> keyValuePairs = selected.ToDictionary(x => x.Name, y => y.IsSelected.ToString());
+            //for (int i = 0; i < selectedList.Count; i++)
+            //{
+            //    OptionModel selected = selectedList[i];
+            //    Type t = typeof(SearchVideoModelReq);
+            //    if (selected.PropName != null)
+            //    {
+            //        PropertyInfo f = t.GetProperty(selected.PropName);
+            //        f.SetValue(SearchVideoModelReq, selected.PropValue);
+            //        continue;
+            //    }
+            //    String publishedAfterString = "";
+            //    String publishedBeforeString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + DateTime.Now.ToString("HH:mm:ss") + "%2B08:00";
+            //    if (selected.Name == "今天")
+            //    {
+            //        publishedAfterString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+            //    }
+            //    else if (selected.Name == "本週")
+            //    {
+            //        publishedAfterString = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+            //    }
+            //    else if (selected.Name == "本月")
+            //    {
+            //        publishedAfterString = DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+            //    }
+            //    else if (selected.Name == "今年")
+            //    {
+            //        publishedAfterString = DateTime.Now.AddDays(-365).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
+            //    }
+            //    SearchVideoModelReq.publishedBefore = publishedBeforeString;
+            //    SearchVideoModelReq.publishedAfter = publishedAfterString;
+
 
         }
 

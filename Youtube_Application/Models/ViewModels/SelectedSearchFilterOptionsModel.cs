@@ -8,14 +8,15 @@ namespace Youtube_Application.Models.ViewModels
 {
     public class SelectedSearchFilterOptionsModel
     {
-        public string Category { get; set; }
+        public string SearchQ { get; set; }
+        public OptionModel Category { get; set; }
 
-        public string FilmLength { get; set; }
+        public OptionModel FilmLength { get; set; }
 
-        public string UploadDate { get; set; }
+        public OptionModel UploadDate { get; set; }
 
-        public string Property { get; set; }
+        public OptionModel Property { get; set; }
 
-        public string Priority { get; set; }
+        public OptionModel Priority { get; set; }
     }
 }
