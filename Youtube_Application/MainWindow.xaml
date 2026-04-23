@@ -87,7 +87,7 @@
                                         Margin="0,3,0,0"
                                         FontSize="11"
                                         Foreground="DimGray"
-                                        Text="{Binding ViewCount, StringFormat='觀看人數 \{0:#,##0\}次'}" />
+                                        Text="{Binding ViewCount}" />
                                 </StackPanel>
                             </StackPanel>
                         </Border>

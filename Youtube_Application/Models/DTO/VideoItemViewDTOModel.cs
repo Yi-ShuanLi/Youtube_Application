@@ -1,16 +1,13 @@
-﻿using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Youtube_Application.Models.PlayList
+namespace Youtube_Application.Models.DTO
 {
-    [AddINotifyPropertyChangedInterface]
-    public class VideoItemViewModel
+    public class VideoItemViewDTOModel
     {
-
         public string Title { get; set; }
         public string ImageUrl { get; set; }
         public long ViewCount { get; set; }  //觀看人數
@@ -23,6 +20,5 @@ namespace Youtube_Application.Models.PlayList
         public string ChannelImageUrl { get; set; }
         public string ChannelId { get; set; }
         public DateTime PublishTime { get; set; }
-
     }
 }

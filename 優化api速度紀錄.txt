@@ -1,0 +1,30 @@
+SearchVideoPresenter : (.NET Framwork 4.7.2)
+原始版本只有foreach:秒數9,915
+
+無法使用=>Parallel.For版本 (.NET Framwork 4.7.2)無法拿到資料，射後不理，必須要.NET 8的 Parallel.ForAsync或Parallel.ForEachAsync才行
+
+1.在foreach裡面包個await Task.Run去強行等兩個取得imageUrl跟觀看人數這兩個api好:
+優化版1 Task.Run:秒數3,718
+
+2.用Task.Run包起來丟進List<Task>，裝完整後，再用await Task.WhenAll去等待取出結果:
+優化版2 Task.WhenAll:秒數1,808
+
+3.優化版3  LinQ搭配 Task.WhenAll
+裡面多包Task.Run => 優化版3  LinQ搭配 Task.WhenAll:秒數1,950
+裡面拆掉Task.Run =>優化版3  LinQ搭配 Task.WhenAll:秒數1,506
+兩個Task一起跑=>優化版3  LinQ搭配 Task.WhenAll:秒數1,486
+
+4.優化版4  批次發送api :秒數176毫秒
+
+為何方法1與方法3的裡面都有包Task.Run但秒數一個3,718另一個是1,950，就外層一個Foreach與LinQ這樣就差這麼多?LinQ的底層也是Foreach阿?為何有這麼大的差別呢?
+
+原始版本:遇到await就跳離SearchVideo這個方法，也就是當50筆資料時，會有100個await跳離SearchVideo，然後要等這100個回來。所以占用秒數9,915
+
+優化版1  Task.Run，foreach裡面有一個await Task.Run包著兩個api，所以當50筆資料時，會有50個跳出SearchVideo，然後等50個await Task.Run回來。那被await Task.Run包著的兩個api則不會跳離，因為被await Task.Run包著。
+
+優化版2  用Task.Run把兩個await api包起來，再用List<Task>儲存，這樣子更好，因為2個api都不會跳離Task.Run，然後Task.Run也不會跳離SearchVideo()，只有走到await Task.WhenAll(list);才跳離SearchVideo()
+
+優化版3  因為LinQ 的Select 的yield return的關係，所以對比優化版1，在同樣都有await Task.Run包著兩個api時，LinQ的Select不會跳離SearchVideo()，直到await Task.WhenAll(task);才會跳離SearchVideo()
+
+那在優化版3 ，不管有沒有多個await Task.Run包著兩個api，都不會跳離SearchVideo()，因為Select的yield return的關係
+

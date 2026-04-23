@@ -19,6 +19,7 @@ using Youtube_API.Channels.Models;
 using Youtube_API.PlayLists.Models;
 using Youtube_API.Videos;
 using Youtube_API.Videos.Models;
+using Youtube_Application.Models.DTO;
 using Youtube_Application.Models.PlayList;
 using Youtube_Application.Models.ViewModels;
 using Youtube_Application.Presenters;
@@ -40,21 +41,18 @@ namespace Youtube_Application.Models
         {
             get => TotalResults.Count;
         }
-        public SearchFilterModel FilterOptions { get; set; } = new SearchFilterModel();
-        //TODO: 之後拆分成元件之後會需要這包物件
-        //public SelectedSearchFilterOptionsModel SelectedSearchFilterOptionsModel { get; set; } = new SelectedSearchFilterOptionsModel();
-        public SearchVideoModelReq SearchVideoModelReq { get; set; } = new SearchVideoModelReq();
 
-        public SearchModel SearchVideoModel { get; set; } = new SearchModel();
+        public SearchVideoModelReq SearchVideoModelReq { get; set; } = new SearchVideoModelReq();
 
         public ICommand PageChangeCommand { get; set; }
 
         public ICommand FilterButtonCommand { get; set; }
 
-        public void GetSearchVideos(List<VideoItemViewModel> videoItemViewModels) // TODO: 這裡要改成回傳DTO 再用Mapper去轉
+        public void GetSearchVideos(List<VideoItemViewDTOModel> videoItemViewDTOModel) // TODO: 這裡要改成回傳DTO 再用Mapper去轉
         {
             Results.Clear();
             TotalResults.Clear();
+            List<VideoItemViewModel> videoItemViewModels = Mapper.Map<VideoItemViewDTOModel, VideoItemViewModel>(videoItemViewDTOModel);
             TotalResults = new ObservableCollection<VideoItemViewModel>(videoItemViewModels);
             Results = new ObservableCollection<VideoItemViewModel>(TotalResults.Take(10));
         }
@@ -122,55 +120,6 @@ namespace Youtube_Application.Models
                 SearchVideoModelReq.q = x.SearchQ;
                 await this.SearchVideoPresenter.SearchVideo(SearchVideoModelReq);
             });
-        }
-
-
-        private void SetSearchVideoModelReq()
-        {
-            //PropertyInfo[] propertyInfos = FilterOptions.GetType().GetProperties();
-            //List<OptionModel> selectedList = propertyInfos.Select(x =>
-            //{
-            //    List<OptionModel> options = (List<OptionModel>)x.GetValue(FilterOptions);
-            //    return options.First(y => y.IsSelected);
-            //}).ToList();
-            ////selectedList.Add(FilterOptions.Category.First(x => x.IsSelected == true));
-            ////selectedList.Add(FilterOptions.FilmLength.First(x => x.IsSelected == true));
-            ////selectedList.Add(FilterOptions.UploadDate.First(x => x.IsSelected == true));
-            ////selectedList.Add(FilterOptions.Property.First(x => x.IsSelected == true));
-            ////selectedList.Add(FilterOptions.Priority.First(x => x.IsSelected == true));
-            ////Dictionary<string, string> keyValuePairs = selected.ToDictionary(x => x.Name, y => y.IsSelected.ToString());
-            //for (int i = 0; i < selectedList.Count; i++)
-            //{
-            //    OptionModel selected = selectedList[i];
-            //    Type t = typeof(SearchVideoModelReq);
-            //    if (selected.PropName != null)
-            //    {
-            //        PropertyInfo f = t.GetProperty(selected.PropName);
-            //        f.SetValue(SearchVideoModelReq, selected.PropValue);
-            //        continue;
-            //    }
-            //    String publishedAfterString = "";
-            //    String publishedBeforeString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + DateTime.Now.ToString("HH:mm:ss") + "%2B08:00";
-            //    if (selected.Name == "今天")
-            //    {
-            //        publishedAfterString = DateTime.Now.ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-            //    }
-            //    else if (selected.Name == "本週")
-            //    {
-            //        publishedAfterString = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-            //    }
-            //    else if (selected.Name == "本月")
-            //    {
-            //        publishedAfterString = DateTime.Now.AddDays(-31).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-            //    }
-            //    else if (selected.Name == "今年")
-            //    {
-            //        publishedAfterString = DateTime.Now.AddDays(-365).ToString("yyyy-MM-dd") + "T" + "00:00:01" + "%2B08:00";
-            //    }
-            //    SearchVideoModelReq.publishedBefore = publishedBeforeString;
-            //    SearchVideoModelReq.publishedAfter = publishedAfterString;
-
-
         }
 
     }
