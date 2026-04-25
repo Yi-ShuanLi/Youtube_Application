@@ -49,7 +49,53 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <card:VideoCard VideoCardCommand="{Binding DataContext.GetVideoCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
+                        <Border
+                            Width="220"
+                            Height="250"
+                            Margin="10"
+                            Background="White"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            CornerRadius="8">
+                            <StackPanel>
+                                <Image
+                                    Height="120"
+                                    Source="{Binding ImageUrl}"
+                                    Stretch="UniformToFill" />
+                                <StackPanel Margin="10">
+                                    <TextBlock
+                                        Height="40"
+                                        FontWeight="Bold"
+                                        Text="{Binding Title}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                        <Ellipse
+                                            Width="24"
+                                            Height="24"
+                                            Margin="0,0,8,0">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding ChannelImageUrl}" Stretch="UniformToFill" />
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Foreground="DimGray"
+                                            Text="{Binding ChannelTitle}" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Margin="0,5,0,0"
+                                        FontSize="11"
+                                        Foreground="Gray"
+                                        Text="{Binding PublishTime, StringFormat=\{0:yyyy/MM/dd\}}" />
+                                    <TextBlock
+                                        Margin="0,3,0,0"
+                                        FontSize="11"
+                                        Foreground="DimGray"
+                                        Text="{Binding ViewCount}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 

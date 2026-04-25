@@ -42,7 +42,11 @@ namespace Youtube_Application.Components.VideoCardComponent
                // 因為會透過Register去註冊，「typeof(TaskComponent),//我要掛在誰下面」
                //「我要掛在誰下面(父)」的誰是必須要有DependencyObject(父)，本頁是UserControl
                VideoCard videoCard = (VideoCard)d;
+               // d是DependencyObject比 「Pagination : UserControl」大，轉回去 Pagination      
                VideoItemViewModel videoItemViewModel = (VideoItemViewModel)videoCard.DataContext;
+               // 分頁元件前端是綁定 PaginationContext ，也就是Pagination建構式所寫的那樣
+               // 最終在PaginationContext的 TotalCount 及 PaginationPresenter.InitialTotalCount
+               // 去設定總資料筆數
                videoItemViewModel.GetCommand = (ICommand)e.NewValue;
            }));
         public ICommand VideoCardCommand //在外層的window上寫的欄位(屬性)，當作進入點，把外層window的command綁定送進來
