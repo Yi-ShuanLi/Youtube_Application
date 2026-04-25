@@ -48,6 +48,8 @@ namespace Youtube_Application.Models
 
         public ICommand FilterButtonCommand { get; set; }
 
+        public ICommand GetVideoCommand { get; set; }
+
         public void GetSearchVideos(List<VideoItemViewDTOModel> videoItemViewDTOModel) // TODO: 這裡要改成回傳DTO 再用Mapper去轉
         {
             Results.Clear();
@@ -120,6 +122,12 @@ namespace Youtube_Application.Models
                 SearchVideoModelReq.q = x.SearchQ;
                 await this.SearchVideoPresenter.SearchVideo(SearchVideoModelReq);
             });
+
+            GetVideoCommand = new RelayCommand<VideoItemViewModel>((x) =>
+            {
+
+            });
+
         }
 
     }

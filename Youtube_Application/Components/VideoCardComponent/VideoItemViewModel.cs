@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Youtube_Application.Models.PlayList
 {
@@ -24,5 +26,15 @@ namespace Youtube_Application.Models.PlayList
         public string ChannelId { get; set; }
         public DateTime PublishTime { get; set; }
 
+        public ICommand Command { get; set; }
+        public ICommand GetCommand { get; set; }
+
+        public VideoItemViewModel()
+        {
+            Command = new RelayCommand<VideoItemViewModel>((x) =>
+            {
+                this.GetCommand.Execute(x);
+            });
+        }
     }
 }
