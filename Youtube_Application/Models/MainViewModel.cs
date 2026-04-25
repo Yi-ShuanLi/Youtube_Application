@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -47,6 +48,8 @@ namespace Youtube_Application.Models
         public ICommand PageChangeCommand { get; set; }
 
         public ICommand FilterButtonCommand { get; set; }
+
+        public ICommand GetVideoCommand { get; set; }
 
         public void GetSearchVideos(List<VideoItemViewDTOModel> videoItemViewDTOModel) // TODO: 這裡要改成回傳DTO 再用Mapper去轉
         {
@@ -120,6 +123,12 @@ namespace Youtube_Application.Models
                 SearchVideoModelReq.q = x.SearchQ;
                 await this.SearchVideoPresenter.SearchVideo(SearchVideoModelReq);
             });
+
+            GetVideoCommand = new RelayCommand<VideoItemViewModel>((x) =>
+            {
+                Debug.WriteLine(x.Title);
+            });
+
         }
 
     }

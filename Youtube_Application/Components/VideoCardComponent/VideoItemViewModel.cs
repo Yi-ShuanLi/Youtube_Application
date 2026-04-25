@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Youtube_Application.Models.PlayList
 {
@@ -24,5 +26,18 @@ namespace Youtube_Application.Models.PlayList
         public string ChannelId { get; set; }
         public DateTime PublishTime { get; set; }
 
+        public ICommand VideoItemModelCommand { get; set; } //綁在元件上的Command，通常是事件(click)
+                                                            //因為卡片沒有事件，所以安裝套件Interaction.Triggers
+                                                            //當用左鍵點擊卡片時，我的最外層會收到卡片VideoItemViewModel的所有資訊
+
+        public ICommand GetCommand { get; set; }//供外層(MainViewModel)的Command註冊使用
+
+        public VideoItemViewModel()
+        {
+            VideoItemModelCommand = new RelayCommand<VideoItemViewModel>((x) =>
+            {
+                this.GetCommand.Execute(x);
+            });
+        }
     }
 }

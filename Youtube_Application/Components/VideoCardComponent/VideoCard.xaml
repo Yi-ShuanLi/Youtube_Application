@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="Youtube_Application.Components.VideoCardComponent.VideoCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:Youtube_Application.Components.VideoCardComponent"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <Border
+            Width="220"
+            Height="250"
+            Margin="10"
+            Background="White"
+            BorderBrush="LightGray"
+            BorderThickness="1"
+            CornerRadius="8">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding VideoItemModelCommand}" 
+                                   CommandParameter="{Binding}" />
+                </i:EventTrigger>
+
+            </i:Interaction.Triggers>
+            <StackPanel>
+                <Image
+                    Height="120"
+                    Source="{Binding ImageUrl}"
+                    Stretch="UniformToFill" />
+                <StackPanel Margin="10">
+                    <TextBlock
+                        Height="40"
+                        FontWeight="Bold"
+                        Text="{Binding Title}"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="Wrap" />
+                    <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                        <Ellipse
+                            Width="24"
+                            Height="24"
+                            Margin="0,0,8,0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ChannelImageUrl}" Stretch="UniformToFill" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="DimGray"
+                            Text="{Binding ChannelTitle}" />
+                    </StackPanel>
+                    <TextBlock
+                        Margin="0,5,0,0"
+                        FontSize="11"
+                        Foreground="Gray"
+                        Text="{Binding PublishTime, StringFormat=\{0:yyyy/MM/dd\}}" />
+                    <TextBlock
+                        Margin="0,3,0,0"
+                        FontSize="11"
+                        Foreground="DimGray"
+                        Text="{Binding ViewCount}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</UserControl>
