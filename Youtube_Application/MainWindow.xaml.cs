@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Youtube_Application.Models;
+using Youtube_Application.Utilitys;
 
 namespace Youtube_Application
 {
@@ -25,7 +26,11 @@ namespace Youtube_Application
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            INavigationService navigationService = new Utilitys.NavigationService();
+            //把MainWindow的<Frame x:Name="frame" />傳入去設定NavigationService的_frame
+            navigationService.SetFrame(frame);
+            //把navigationService傳入到MainViewModel裡去，所以就能call by reference都是同個navigationService
+            DataContext = new MainViewModel(navigationService);
         }
     }
 }

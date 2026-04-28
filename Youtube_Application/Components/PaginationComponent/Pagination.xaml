@@ -1,47 +1,50 @@
-﻿<UserControl x:Class="Youtube_Application.Components.PaginationComponent.Pagination"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Youtube_Application.Components.PaginationComponent"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+﻿<UserControl
+    x:Class="Youtube_Application.Components.PaginationComponent.Pagination"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Youtube_Application.Components.PaginationComponent"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
-        <!-- 導航按鈕樣式 -->
+        <!--  導航按鈕樣式  -->
         <Style x:Key="NavButtonStyle" TargetType="Button">
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Padding" Value="12,0"/>
-            <Setter Property="Margin" Value="3,0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="#3B82F6"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#D1D5DB"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="Margin" Value="3,0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#3B82F6" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="6"
-                                SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#EFF6FF"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
+                                <Setter TargetName="border" Property="Background" Value="#EFF6FF" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#DBEAFE"/>
+                                <Setter TargetName="border" Property="Background" Value="#DBEAFE" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#9CA3AF"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#E5E7EB"/>
-                                <Setter TargetName="border" Property="Background" Value="#F9FAFB"/>
+                                <Setter Property="Foreground" Value="#9CA3AF" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#E5E7EB" />
+                                <Setter TargetName="border" Property="Background" Value="#F9FAFB" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -49,35 +52,36 @@
             </Setter>
         </Style>
 
-        <!-- 數字頁碼按鈕樣式 -->
+        <!--  數字頁碼按鈕樣式  -->
         <Style x:Key="PageNumberButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Margin" Value="3,0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="#3B82F6"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#D1D5DB"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Margin" Value="3,0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="#3B82F6" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="6"
-                                SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#EFF6FF"/>
-                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6"/>
+                                <Setter TargetName="border" Property="Background" Value="#EFF6FF" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#3B82F6" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#DBEAFE"/>
+                                <Setter TargetName="border" Property="Background" Value="#DBEAFE" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -87,43 +91,49 @@
     </UserControl.Resources>
 
     <Grid Margin="0,8">
-        <!-- 整體用單一欄，讓內容水平置中 -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <!--  整體用單一欄，讓內容水平置中  -->
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
 
-            <!-- 前一頁 -->
-            <Button Content="◀  前一頁"
-                    Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding PreviousNextPageCommand}"
-                    CommandParameter="-1"
-                    IsEnabled="{Binding PreviousPageButtonIsEnable}"/>
+            <!--  前一頁  -->
+            <Button
+                Command="{Binding PreviousNextPageCommand}"
+                CommandParameter="-1"
+                Content="◀  前一頁"
+                IsEnabled="{Binding PreviousPageButtonIsEnable}"
+                Style="{StaticResource NavButtonStyle}" />
 
-            <!-- 前五頁 -->
-            <Button Content="«  前五頁"
-                    Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding PreviousNextPageCommand}"
-                    CommandParameter="-5"
-                    IsEnabled="{Binding PreviousPageButtonIsEnable}"/>
+            <!--  前五頁  -->
+            <Button
+                Command="{Binding PreviousNextPageCommand}"
+                CommandParameter="-5"
+                Content="«  前五頁"
+                IsEnabled="{Binding PreviousPageButtonIsEnable}"
+                Style="{StaticResource NavButtonStyle}" />
 
-            <!-- 數字頁碼 -->
+            <!--  數字頁碼  -->
             <ItemsControl ItemsSource="{Binding PageSource}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"/>
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Name}"
-                                Command="{Binding DataContext.PageChangeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                CommandParameter="{Binding Name}">
+                        <Button
+                            Command="{Binding DataContext.PageChangeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                            CommandParameter="{Binding Name}"
+                            Content="{Binding Name}">
                             <Button.Style>
-                                <Style TargetType="Button" BasedOn="{StaticResource PageNumberButtonStyle}">
+                                <Style BasedOn="{StaticResource PageNumberButtonStyle}" TargetType="Button">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                            <Setter Property="Background" Value="#3B82F6"/>
-                                            <Setter Property="BorderBrush" Value="#3B82F6"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Background" Value="#3B82F6" />
+                                            <Setter Property="BorderBrush" Value="#3B82F6" />
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="FontWeight" Value="Bold" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -133,19 +143,21 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <!-- 後五頁 -->
-            <Button Content="後五頁  »"
-                    Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding PreviousNextPageCommand}"
-                    CommandParameter="5"
-                    IsEnabled="{Binding NextPageButtonIsEnable}"/>
+            <!--  後五頁  -->
+            <Button
+                Command="{Binding PreviousNextPageCommand}"
+                CommandParameter="5"
+                Content="後五頁  »"
+                IsEnabled="{Binding NextPageButtonIsEnable}"
+                Style="{StaticResource NavButtonStyle}" />
 
-            <!-- 下一頁 -->
-            <Button Content="下一頁  ▶"
-                    Style="{StaticResource NavButtonStyle}"
-                    Command="{Binding PreviousNextPageCommand}"
-                    CommandParameter="1"
-                    IsEnabled="{Binding NextPageButtonIsEnable}"/>
+            <!--  下一頁  -->
+            <Button
+                Command="{Binding PreviousNextPageCommand}"
+                CommandParameter="1"
+                Content="下一頁  ▶"
+                IsEnabled="{Binding NextPageButtonIsEnable}"
+                Style="{StaticResource NavButtonStyle}" />
 
         </StackPanel>
     </Grid>

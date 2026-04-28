@@ -128,7 +128,7 @@
                 AllowsTransparency="True"
                 IsOpen="{Binding IsOpen}"
                 Placement="Center"
-                PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType=Page}}"
                 PopupAnimation="Fade"
                 StaysOpen="False">
 

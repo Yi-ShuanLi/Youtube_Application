@@ -89,15 +89,22 @@
     <Compile Include="Components\SearchFilterComponent\SearchFilterModel.cs" />
     <Compile Include="Models\ViewModels\SelectedSearchFilterOptionsModel.cs" />
     <Compile Include="Components\VideoCardComponent\VideoItemViewModel.cs" />
+    <Compile Include="Pages\Context\VideoSerchContext.cs" />
     <Compile Include="Pages\PlayListPage.xaml.cs">
       <DependentUpon>PlayListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PlayListViewModel.cs" />
+    <Compile Include="Pages\VideoSearchPage.xaml.cs">
+      <DependentUpon>VideoSearchPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\SearchVideoPresenter.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="Utilitys\INavigationAware.cs" />
+    <Compile Include="Utilitys\INavigationService.cs" />
     <Compile Include="Utilitys\Mapper.cs" />
     <Compile Include="Models\DTO\CreateListModel.cs" />
     <Compile Include="Models\DTO\SearchModel.cs" />
+    <Compile Include="Utilitys\NavigationService.cs" />
     <Page Include="Components\PaginationComponent\Pagination.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +130,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\PlayListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\VideoSearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
