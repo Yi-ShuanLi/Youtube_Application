@@ -39,7 +39,7 @@ namespace Youtube_Application.Pages
         }
         public async void GetAllPlayListCover()
         {
-            AllAllocationListListCover allAllocationListListCover = await youtube.PlayList.GetMyAllCover();
+            AllAllocationListListCover allAllocationListListCover = await youtube.PlayList.GetAllCover();
             List<PlayListItemViewModel> allPlayList = Mapper.Map<AllAllocationListListCover.Item, PlayListItemViewModel>(allAllocationListListCover.items.ToList(), config =>
             {
                 config.ForMember(x => x.Name, y => y.MapFrom(z => z.snippet.title))//ForMeber 左邊目的，右邊來源

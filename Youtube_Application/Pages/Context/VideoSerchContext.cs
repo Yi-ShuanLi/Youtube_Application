@@ -23,6 +23,7 @@ namespace Youtube_Application.Pages.Context
     {
         public ISearchVideoPresenter SearchVideoPresenter;
 
+
         public ICommand PageChangeCommand { get; set; }
 
         public ICommand FilterButtonCommand { get; set; }
@@ -52,7 +53,7 @@ namespace Youtube_Application.Pages.Context
             Debug.WriteLine(data);
         }
 
-        public VideoSerchContext()
+        public VideoSerchContext(INavigationService navigationService)
         {
             this.SearchVideoPresenter = new SearchVideoPresenter(this);
 
@@ -116,7 +117,9 @@ namespace Youtube_Application.Pages.Context
 
             GetVideoCommand = new RelayCommand<VideoItemViewModel>((x) =>
             {
-                Debug.WriteLine(x.Title);
+                //VideoDetailPage的DataContext必需要繼承INavigationAware才能傳遞資資料
+                App.navigationService.Navigate(new VideoDetailPage(), x);
+
             });
 
         }

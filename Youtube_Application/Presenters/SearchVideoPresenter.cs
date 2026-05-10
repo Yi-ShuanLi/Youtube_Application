@@ -17,7 +17,7 @@ namespace Youtube_Application.Presenters
     public class SearchVideoPresenter : ISearchVideoPresenter
     {
         public ISearchVideoModelView SearchVideoModelView;
-        public Youtube_API.YoutubeContext youtube = new Youtube_API.YoutubeContext(false);
+        public Youtube_API.YoutubeContext youtube = new Youtube_API.YoutubeContext(true);
         public SearchVideoPresenter(ISearchVideoModelView view)
         {
             this.SearchVideoModelView = view;
@@ -177,6 +177,7 @@ namespace Youtube_Application.Presenters
             {
                 var channelMatch = batchChannel.items.FirstOrDefault(y => y.id == item.ChannelId);
                 item.ChannelImageUrl = channelMatch.snippet.thumbnails.medium.url;
+                item.SubscriberCount = long.Parse(channelMatch.statistics.subscriberCount == null ? "0" : channelMatch.statistics.subscriberCount);
                 if (item.VideoId != null)
                 {
                     var videoMatch = batchVideo.items.FirstOrDefault(y => y.id == item.VideoId);

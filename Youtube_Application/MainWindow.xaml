@@ -7,7 +7,7 @@
     xmlns:filter="clr-namespace:Youtube_Application.Components.SearchFilterComponent"
     xmlns:local="clr-namespace:Youtube_Application"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:page="clr-namespace:Youtube_Application.Components.PaginationComponent"    
+    xmlns:page="clr-namespace:Youtube_Application.Components.PaginationComponent"
     Title="MainWindow"
     Width="800"
     Height="450"
@@ -15,7 +15,12 @@
 
 
     <StackPanel Orientation="Vertical">
-
+        <Image
+            Width="100"
+            Height="80"
+            Margin="0,0,5,0"
+            HorizontalAlignment="Left"
+            Source="D:\c#_Leo老師\Youtube_Application\images\youtubeIcon.jpg" />
         <Frame x:Name="frame" />
     </StackPanel>
 

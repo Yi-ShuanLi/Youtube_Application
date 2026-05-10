@@ -70,7 +70,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\Comments\Comment.xaml.cs">
+      <DependentUpon>Comment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Comments\CommentModel.cs" />
     <Compile Include="Components\Contracts\PaginationContract.cs" />
+    <Compile Include="Components\ReplyComment\Enums\ReplyCommentType.cs" />
+    <Compile Include="Components\ReplyComment\ReplyComment.xaml.cs">
+      <DependentUpon>ReplyComment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\ReplyComment\ReplyCommentModel.cs" />
+    <Compile Include="Contract\VideoDetailContract.cs" />
     <Compile Include="Components\PaginationComponent\Pagination.xaml.cs">
       <DependentUpon>Pagination.xaml</DependentUpon>
     </Compile>
@@ -83,29 +93,50 @@
       <DependentUpon>VideoCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Contract\SearchVideoContract.cs" />
+    <Compile Include="Converters\BolleanNotToVisiblity.cs" />
+    <Compile Include="Converters\BolleanToVisiblity.cs" />
+    <Compile Include="Converters\DateToString.cs" />
+    <Compile Include="Converters\ViewCountToString.cs" />
+    <Compile Include="Models\DTO\ChannelViewDTOModel.cs" />
+    <Compile Include="Models\DTO\CommentViewDTOModel.cs" />
+    <Compile Include="Models\DTO\RatingCommentDTOModel.cs" />
     <Compile Include="Models\DTO\VideoItemViewDTOModel.cs" />
+    <Compile Include="Models\ViewModels\CommentPageModel.cs" />
+    <Compile Include="Models\ViewModels\MyRatingVideoItemModel.cs" />
     <Compile Include="Models\ViewModels\OptionModel.cs" />
     <Compile Include="Models\ViewModels\PlayListItemViewModel.cs" />
     <Compile Include="Components\SearchFilterComponent\SearchFilterModel.cs" />
     <Compile Include="Models\ViewModels\SelectedSearchFilterOptionsModel.cs" />
     <Compile Include="Components\VideoCardComponent\VideoItemViewModel.cs" />
+    <Compile Include="Pages\Context\VideoDetailContext.cs" />
     <Compile Include="Pages\Context\VideoSerchContext.cs" />
     <Compile Include="Pages\PlayListPage.xaml.cs">
       <DependentUpon>PlayListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PlayListViewModel.cs" />
+    <Compile Include="Pages\VideoDetailPage.xaml.cs">
+      <DependentUpon>VideoDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\VideoSearchPage.xaml.cs">
       <DependentUpon>VideoSearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presenters\SearchVideoPresenter.cs" />
+    <Compile Include="Presenters\VideoDetailPresenter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Utilitys\INavigationAware.cs" />
     <Compile Include="Utilitys\INavigationService.cs" />
     <Compile Include="Utilitys\Mapper.cs" />
     <Compile Include="Models\DTO\CreateListModel.cs" />
-    <Compile Include="Models\DTO\SearchModel.cs" />
     <Compile Include="Utilitys\NavigationService.cs" />
+    <Page Include="Components\Comments\Comment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\PaginationComponent\Pagination.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\ReplyComment\ReplyComment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,6 +161,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\PlayListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\VideoDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,7 +201,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Components\Comments\Enums\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.9.3\build\Fody.targets" Condition="Exists('..\packages\Fody.6.9.3\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

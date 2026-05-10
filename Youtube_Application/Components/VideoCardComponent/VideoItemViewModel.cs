@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace Youtube_Application.Models.PlayList
+namespace Youtube_Application.Models.DTO
 {
     [AddINotifyPropertyChangedInterface]
     public class VideoItemViewModel
     {
-
         public string Title { get; set; }
         public string ImageUrl { get; set; }
         public long ViewCount { get; set; }  //觀看人數
@@ -24,6 +23,7 @@ namespace Youtube_Application.Models.PlayList
         public string ChannelTitle { get; set; }
         public string ChannelImageUrl { get; set; }
         public string ChannelId { get; set; }
+        public long SubscriberCount { get; set; }
         public DateTime PublishTime { get; set; }
 
         public ICommand VideoItemModelCommand { get; set; } //綁在元件上的Command，通常是事件(click)

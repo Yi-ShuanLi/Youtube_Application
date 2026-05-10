@@ -39,8 +39,7 @@ namespace Youtube_Application.Models
         public MainViewModel(INavigationService navigationService)
         {
             this.navigationService = navigationService;
-            this.navigationService.Navigate(new VideoSearchPage(), "Hello World");
-
+            this.navigationService.Navigate(new VideoSearchPage(this.navigationService), "Hello World");
         }
 
     }

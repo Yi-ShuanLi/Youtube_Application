@@ -12,6 +12,7 @@ namespace Youtube_Application.Utilitys
         Frame _frame;
         public void Navigate(Page page, object data = null)
         {
+            //當今天傳入的Page.DataContext是有繼承INavigationAware的情況才傳遞資料
             if (data != null && page.DataContext is INavigationAware navigationAware)
             {
                 navigationAware.OnDataReceived(data);

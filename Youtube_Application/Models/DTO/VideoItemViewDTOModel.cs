@@ -19,6 +19,7 @@ namespace Youtube_Application.Models.DTO
         public string ChannelTitle { get; set; }
         public string ChannelImageUrl { get; set; }
         public string ChannelId { get; set; }
+        public long SubscriberCount { get; set; }
         public DateTime PublishTime { get; set; }
     }
 }

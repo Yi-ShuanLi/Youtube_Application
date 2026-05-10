@@ -13,19 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Youtube_Application.Pages.Context;
-using Youtube_Application.Utilitys;
 
 namespace Youtube_Application.Pages
 {
     /// <summary>
-    /// VideoSearchPage.xaml 的互動邏輯
+    /// VideoDetailPage.xaml 的互動邏輯
     /// </summary>
-    public partial class VideoSearchPage : Page
+    public partial class VideoDetailPage : Page
     {
-        public VideoSearchPage(INavigationService navigationService)
+        public VideoDetailPage()
         {
             InitializeComponent();
-            DataContext = new VideoSerchContext(navigationService);
+            DataContext = new VideoDetailContext();
         }
     }
 }

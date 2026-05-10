@@ -26,11 +26,11 @@ namespace Youtube_Application
         public MainWindow()
         {
             InitializeComponent();
-            INavigationService navigationService = new Utilitys.NavigationService();
+            App.navigationService = new Utilitys.NavigationService();
             //把MainWindow的<Frame x:Name="frame" />傳入去設定NavigationService的_frame
-            navigationService.SetFrame(frame);
+            App.navigationService.SetFrame(frame);
             //把navigationService傳入到MainViewModel裡去，所以就能call by reference都是同個navigationService
-            DataContext = new MainViewModel(navigationService);
+            DataContext = new MainViewModel(App.navigationService);
         }
     }
 }

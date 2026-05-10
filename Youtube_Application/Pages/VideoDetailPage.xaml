@@ -1,0 +1,135 @@
+﻿<Page
+    x:Class="Youtube_Application.Pages.VideoDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:comment="clr-namespace:Youtube_Application.Components.Comments"
+    xmlns:converters="clr-namespace:Youtube_Application.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Youtube_Application.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:replyComment="clr-namespace:Youtube_Application.Components.ReplyComment"
+    Title="VideoDetailPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BolleanToVisiblity x:Key="booleanConverter" />
+        <converters:BolleanNotToVisiblity x:Key="booleanNotConverter" />
+        <converters:ViewCountToString x:Key="viewCountConverter" />
+        <converters:DateToString x:Key="dateConverter" />
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="800" />
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Image
+                Height="120"
+                Source="{Binding VideoModel.ImageUrl}"
+                Stretch="UniformToFill" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Label>標題:</Label>
+            <Label Content="{Binding VideoModel.Title}" />
+            <Label Content="{Binding VideoModel.VideoId}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Height="50"
+            Orientation="Horizontal">
+            <Image
+                Height="45"
+                Source="{Binding VideoModel.ChannelImageUrl}"
+                Stretch="UniformToFill" />
+            <StackPanel Orientation="Vertical">
+                <Label Content="{Binding VideoModel.ChannelTitle}" />
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{Binding VideoModel.SubscriberCount}" />
+                    <Label>訂閱者</Label>
+                </StackPanel>
+            </StackPanel>
+            <Button
+                Height="30"
+                Command="{Binding VideoRatedCommand}"
+                CommandParameter="Like"
+                Content="👍" />
+            <Label Content="{Binding VideoModel.LikeCount}" />
+            <Button
+                Height="30"
+                Command="{Binding VideoRatedCommand}"
+                CommandParameter="Dislike"
+                Content="👎" />
+            <Label Content="🔖" />
+            <Label Content="{Binding VideoModel.FavoriteCount}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="3"
+            Orientation="Vertical"
+            Visibility="{Binding SeeMoreVideoInfo, Converter={StaticResource booleanNotConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <Label>觀看人數:👁️</Label>
+                <Label Content="{Binding VideoModel.ViewCount, Converter={StaticResource viewCountConverter}}" />
+                <Label>發布日期:🗓️</Label>
+                <Label Content="{Binding VideoModel.PublishTime, Converter={StaticResource dateConverter}}" />
+            </StackPanel>
+
+        </StackPanel>
+        <StackPanel
+            Grid.Row="4"
+            Orientation="Vertical"
+            Visibility="{Binding SeeMoreVideoInfo, Converter={StaticResource booleanConverter}}">
+            <StackPanel Orientation="Horizontal">
+                <Label>觀看人數:👁️</Label>
+                <Label Content="{Binding VideoModel.ViewCount}" />
+                <Label>發布日期:🗓️</Label>
+                <Label Content="{Binding VideoModel.PublishTime}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{Binding VideoModel.Description}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="5">
+            <Button Command="{Binding SeeMoreVideoInformCommand}" Content="{Binding SeeMoreVideoInfoButtonText}" />
+        </StackPanel>
+        <StackPanel Grid.Row="6" Orientation="Horizontal">
+            <Label Content="{Binding VideoModel.CommentCount}" ContentStringFormat="{}{0:#,#}" />
+            <Label>則留言</Label>
+        </StackPanel>
+
+        <replyComment:ReplyComment
+            Grid.Row="7"
+            CancelCommentCommand="{Binding}"
+            ReplyCommentCommand="{Binding DataContext.AddCommentCommand , RelativeSource={RelativeSource AncestorType=Page}}" />
+
+        <ScrollViewer
+            Grid.Row="8"
+            Margin="0,10,0,0"
+            VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding CommentsModel}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <comment:Comment />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </ScrollViewer>
+
+    </Grid>
+</Page>
