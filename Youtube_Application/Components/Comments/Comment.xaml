@@ -27,13 +27,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Image
                 Height="50"
                 Source="{Binding AuthorProfileImageUrl}"
                 Stretch="UniformToFill" />
         </StackPanel>
-        <StackPanel
+        <StackPanel Visibility="{Binding IsEditing , Converter={StaticResource booleanNotConverter}}"
             Grid.Row="1"
             Margin="20,0,0,0"
             Orientation="Horizontal">
@@ -42,20 +43,34 @@
             <Button
                 Height="30"
                 Content="🖊️編輯"
-                Visibility="{Binding IsMyComment}" />
+                Visibility="{Binding IsMyComment}" 
+                Command="{Binding OpenEditComment}"/>
             <Button
                 Height="30"
                 Content="🗑️刪除"
-                Visibility="{Binding IsMyComment}" />
+                Visibility="{Binding IsMyComment}" 
+                Command="{Binding ApplyDeleteComment}"
+                CommandParameter="{Binding Id}"/>
         </StackPanel>
-        <StackPanel
+        <StackPanel Visibility="{Binding IsEditing , Converter={StaticResource booleanNotConverter}}"
             Grid.Row="2"
             Margin="20,0,0,0"
             Orientation="Horizontal">
-            <Label Content="{Binding TextDisplay}" />
+            <Label Content="{Binding TextDisplay}"  />
+        </StackPanel>
+        <StackPanel Visibility="{Binding IsEditing, Converter={StaticResource booleanConverter}}"
+            Grid.Row="3"
+            Margin="20,0,0,0"
+            Orientation="Horizontal">
+            <TextBox Text="{Binding EditText}"  />
+            <Button Command="{Binding ApplyCancelComment}" Content="取消" />
+            <Button
+                Command="{Binding ApplyEditComment}"
+                CommandParameter="{Binding }"
+                Content="儲存" />
         </StackPanel>
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="4"
             Height="50"
             Margin="20,0,0,0"
             Orientation="Horizontal">

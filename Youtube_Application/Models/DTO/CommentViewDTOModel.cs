@@ -8,11 +8,11 @@ namespace Youtube_Application.Models.DTO
 {
     public class CommentViewDTOModel
     {
-        public string PublishedAt { get; set; }
+        public DateTime PublishedAt { get; set; }
         public string TextDisplay { get; set; }
         public string AuthorProfileImageUrl { get; set; }
         public string AuthorDisplayName { get; set; }
-        public string LikeCount { get; set; }
+        public int LikeCount { get; set; }
         public string VideoId { get; set; }
         public string AuthorChannelId { get; set; }
         public string AuthorChannelUrl { get; set; }
@@ -21,5 +21,7 @@ namespace Youtube_Application.Models.DTO
         /// </summary>
         public string Id { get; set; }
         public string ViewerRating { get; set; }
+        public int TotalReplyCount { get; set; }
+
     }
 }

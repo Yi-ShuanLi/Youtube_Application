@@ -16,14 +16,16 @@ namespace Youtube_Application.Contract
         {
             void VideoCommentsResponse(List<CommentViewDTOModel> commentModels);
             void MyChannelInformResponse(ChannelViewDTOModel myChannel);
+            void AddVideoCommentResponse(CommentViewDTOModel commentViewDTOModel);
         }
         public interface IVideoDetailPresenter
         {
             Task RatingVideo(string videoId, string ratingButtonText);
             Task GetVideoComments(string videoId, int maxResults);
             Task GetMyChannelInform();
-
             Task AddVideoComment(string videoId, string commentText);
+            Task DeleteMyComment(string commentId);
+            Task EditMyComment(string commentId, string commentText);
         }
     }
 }

@@ -9,6 +9,7 @@ using Youtube_API.Comments.Models;
 using Youtube_API.PlayLists.Models;
 using Youtube_API.Videos.Enums;
 using Youtube_API.Videos.Models;
+using Youtube_Application.Components.Comments;
 using Youtube_Application.Models.DTO;
 using Youtube_Application.Models.ViewModels;
 using Youtube_Application.Utilitys;
@@ -115,7 +116,29 @@ namespace Youtube_Application.Presenters
 
         public async Task AddVideoComment(string videoId, string commentText)
         {
-            await youtube.Comment.AddComment(videoId, commentText);
+            AddCommentModel addCommentModel = await youtube.Comment.AddComment(videoId, commentText);
+            CommentViewDTOModel commentModel = new CommentViewDTOModel();
+            commentModel.VideoId = addCommentModel.snippet.videoId;
+            commentModel.PublishedAt = addCommentModel.snippet.topLevelComment.snippet.publishedAt;
+            commentModel.AuthorProfileImageUrl = addCommentModel.snippet.topLevelComment.snippet.authorProfileImageUrl;
+            commentModel.TextDisplay = addCommentModel.snippet.topLevelComment.snippet.textDisplay;
+            commentModel.AuthorDisplayName = addCommentModel.snippet.topLevelComment.snippet.authorDisplayName;
+            commentModel.LikeCount = addCommentModel.snippet.topLevelComment.snippet.likeCount;
+            commentModel.AuthorChannelId = addCommentModel.snippet.topLevelComment.snippet.authorChannelId.value;
+            commentModel.ViewerRating = addCommentModel.snippet.topLevelComment.snippet.viewerRating;
+            commentModel.Id = addCommentModel.id;
+            commentModel.TotalReplyCount = addCommentModel.snippet.totalReplyCount;
+            videoDetailView.AddVideoCommentResponse(commentModel);
+        }
+
+        public async Task DeleteMyComment(string commentId)
+        {
+            await youtube.Comment.DeleteComment(commentId);
+        }
+
+        public async Task EditMyComment(string commentId, string commentText)
+        {
+            await youtube.Comment.EditComment(commentId, commentText);
         }
 
         public VideoDetailPresenter(IVideoDetailView view)

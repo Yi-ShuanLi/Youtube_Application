@@ -45,6 +45,8 @@ namespace Youtube_Application.Pages.Context
         public ICommand RatingCommentCommand { get; set; }
         public ICommand SeeMoreVideoInformCommand { get; set; }
         public ICommand AddCommentCommand { get; set; }
+        public ICommand DeleteMyCommentCommand { get; set; }
+        public ICommand EditMyCommentCommand { get; set; }
         public void OnDataReceived(object data)
         {
             this.VideoModel = (VideoItemViewModel)data;
@@ -58,6 +60,12 @@ namespace Youtube_Application.Pages.Context
         public void MyChannelInformResponse(ChannelViewDTOModel myChannel)
         {
             MyChannel = myChannel;
+        }
+
+        public void AddVideoCommentResponse(CommentViewDTOModel commentViewDTOModel)
+        {
+            CommentModel comment = Mapper.Map<CommentViewDTOModel, CommentModel>(commentViewDTOModel);
+            CommentsModel.Insert(0, comment);
         }
 
         public VideoDetailContext()
@@ -79,16 +87,16 @@ namespace Youtube_Application.Pages.Context
             this.AddCommentCommand = new RelayCommand<string>(async (x) =>
             {
                 await this.VideoDetailPresenter.AddVideoComment(VideoModel.VideoId, x);
-                CommentModel commentModel = new CommentModel();
-                commentModel.VideoId = VideoModel.VideoId;
-                commentModel.PublishedAt = DateTime.Now.ToString();
-                commentModel.AuthorProfileImageUrl = MyChannel.ImageUrl;
-                commentModel.TextDisplay = x;
-                commentModel.AuthorDisplayName = MyChannel.Title;
-                commentModel.LikeCount = "0";
-                commentModel.AuthorChannelId = MyChannel.Id;
-                commentModel.ViewerRating = "none";
-                CommentsModel.Insert(0, commentModel);
+            });
+            this.DeleteMyCommentCommand = new RelayCommand<string>(async (x) =>
+            {
+                await this.VideoDetailPresenter.DeleteMyComment(x);
+                CommentModel comment = CommentsModel.FirstOrDefault(y => y.Id == x);
+                CommentsModel.Remove(comment);
+            });
+            this.EditMyCommentCommand = new RelayCommand<CommentModel>(async (x) =>
+            {
+                await this.VideoDetailPresenter.EditMyComment(x.Id, x.EditText);
             });
         }
     }
